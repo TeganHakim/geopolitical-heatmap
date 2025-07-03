@@ -1,1 +1,34 @@
-_build
+# Dune build artifacts
+/_build/
+.dune/
+
+# OPAM local switch and configs
+.opam/
+.opam-switch/
+.opam-lock
+*.install
+
+# js_of_ocaml output (optional — ignore if you generate .js files with dune and don't want them committed)
+*.js
+*.js.map
+
+# Node-style (optional for any web frontend tools you might use)
+node_modules/
+dist/
+*.log
+
+# Backup files
+*~
+*.swp
+*.swo
+.DS_Store
+
+# Compiled binaries or demos
+*.exe
+*.byte
+*.native
+*.bc.js
+
+# Coverage / test artifacts
+coverage/
+bisect*.out

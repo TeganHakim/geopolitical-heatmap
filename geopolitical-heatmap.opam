@@ -2,14 +2,28 @@ opam-version: "2.0"
 name: "geopolitical-heatmap"
 version: "0.1.0"
 
+maintainer: "tegan.hakim@gmail.com"
+authors: ["Tegan Hakim"]
+homepage: "https://github.com/TeganHakim/geopolitical-heatmap"
+bug-reports: ""
+license: "MIT"
+
+synopsis: "A real-time geopolitical sentiment heatmap using OCaml and js_of_ocaml"
+description: """
+This project visualizes political unrest and sentiment using real-time data from social media APIs.
+It aggregates sentiment by region and displays it on a heatmap using Leaflet and OCaml.
+"""
+
 depends: [
   "dune" {build}
+  "dream"
   "lwt"
   "cohttp"
   "yojson"
   "js_of_ocaml"
   "js_of_ocaml-ppx"
 ]
+
 build: [
   ["dune" "build" "-p" name "-j" jobs]
 ]
