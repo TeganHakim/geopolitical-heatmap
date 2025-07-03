@@ -5,6 +5,11 @@ version: "0.1.0"
 depends: [
   "dune" {build}
   "lwt"
-  "yojson"
   "cohttp"
+  "yojson"
+  "js_of_ocaml"
+  "js_of_ocaml-ppx"
+]
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
 ]
