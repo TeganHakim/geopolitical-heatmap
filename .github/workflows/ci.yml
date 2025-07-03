@@ -11,24 +11,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install OPAM
+      - name: Install system dependencies and OPAM
         run: |
-          sudo apt update
-          sudo apt-get install -y m4 curl build-essential unzip libev-dev bubblewrap
-          sudo apt install -y opam
-          export PATH="$HOME/.opam/bin:$PATH"
-          opam init --disable-sandboxing --yes
+          sudo apt-get update
+          sudo apt-get install -y m4 curl build-essential unzip libev-dev bubblewrap opam
+          opam init --disable-sandboxing --bare --yes
           eval $(opam env)
           opam install dune --yes
         shell: bash
 
-      - name: Install dependencies from .opam
+      - name: Install OCaml dependencies
         run: |
-          export PATH="$HOME/.local/bin:$PATH"
           eval $(opam env)
           opam install . --deps-only --yes
         shell: bash
-
 
       - name: Build
         run: |
@@ -51,7 +47,7 @@ jobs:
           git init
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/<your-username>/<your-repo>.git
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/TeganHakim/geopolitical-heatmap.git
           git checkout -b gh-pages
           git add --all
           git commit -m "Deploy static site $(date '+%Y-%m-%d %H:%M:%S')"
