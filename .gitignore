@@ -8,10 +8,6 @@
 .opam-lock
 *.install
 
-# js_of_ocaml output (optional — ignore if you generate .js files with dune and don't want them committed)
-*.js
-*.js.map
-
 # Node-style (optional for any web frontend tools you might use)
 node_modules/
 dist/
