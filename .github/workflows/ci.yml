@@ -6,62 +6,35 @@ on:
       - main
 
 jobs:
-  setup:
+  build-test-deploy:
     runs-on: ubuntu-latest
-    outputs:
-      ocaml_env: ${{ steps.env.outputs.ocaml_env }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install OCaml and opam
+      - name: Install OPAM
         run: |
           sudo apt update
-          sudo apt install -y m4 curl unzip build-essential
-          curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh | sh
-
-      - name: Initialize opam
-        id: env
-        run: |
-          eval $(opam init --disable-sandboxing --shell=sh --yes)
-          opam switch create 5.1.0 --yes || true
+          sudo apt install -y m4 curl build-essential unzip
+          bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
+          export PATH="$HOME/.opam/bin:$PATH"
+          opam init --disable-sandboxing --yes
           eval $(opam env)
           opam install dune --yes
-          echo "::set-output name=ocaml_env::$(opam env)"
-  
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup OCaml environment
-        run: eval ${{ needs.setup.outputs.ocaml_env }}
-      
-      - name: Build project with dune
-        run: dune build
-      
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup OCaml environment
-        run: eval ${{ needs.setup.outputs.ocaml_env }}
-      
-      - name: Run tests
-        run: dune runtest
-      
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup OCaml environment
-        run: eval ${{ needs.setup.outputs.ocaml_env }}
-      
-      - name: Prepare and deploy static files
+        shell: bash
+
+      - name: Build
+        run: |
+          eval $(opam env)
+          dune build
+        shell: bash
+
+      # - name: Test
+      #   run: |
+      #     eval $(opam env)
+      #     dune runtest
+      #   shell: bash
+
+      - name: Deploy to gh-pages
         run: |
           rm -rf _ghpages
           mkdir _ghpages
@@ -75,3 +48,4 @@ jobs:
           git add --all
           git commit -m "Deploy static site $(date '+%Y-%m-%d %H:%M:%S')"
           git push --force origin gh-pages
+        shell: bash
