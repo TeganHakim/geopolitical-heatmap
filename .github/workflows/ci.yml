@@ -51,7 +51,7 @@ jobs:
           # Copy static assets
           cp src/static/index.html _ghpages/
           cp -r src/static/css _ghpages/
-          cp -r src/static/leaflet _ghpages/  # If you have Leaflet assets locally
+          cp -r src/static/js _ghpages/
 
           # Copy generated JS from js_of_ocaml
           cp _build/default/src/main.bc.js _ghpages/js/
