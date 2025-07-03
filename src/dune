@@ -1,4 +1,4 @@
 (executables
  (names main)
- (modes js)
+ (modes native js)
  (libraries dream lwt yojson))
