@@ -22,6 +22,14 @@ jobs:
           opam install dune --yes
         shell: bash
 
+      - name: Install dependencies from .opam
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          eval $(opam env)
+          opam install . --deps-only --yes
+        shell: bash
+
+
       - name: Build
         run: |
           eval $(opam env)
