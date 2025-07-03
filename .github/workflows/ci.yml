@@ -14,7 +14,7 @@ jobs:
       - name: Install OPAM
         run: |
           sudo apt update
-          sudo apt install -y m4 curl build-essential unzip
+          sudo apt-get install -y m4 curl build-essential unzip libev-dev bubblewrap
           sudo apt install -y opam
           export PATH="$HOME/.opam/bin:$PATH"
           opam init --disable-sandboxing --yes
