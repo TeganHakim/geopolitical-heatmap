@@ -42,9 +42,21 @@ jobs:
 
       - name: Deploy to gh-pages
         run: |
+          eval $(opam env)
+
+          # Prepare deployment folder
           rm -rf _ghpages
-          mkdir _ghpages
-          cp -r src/static/* _ghpages/
+          mkdir -p _ghpages/js
+
+          # Copy static assets
+          cp src/static/index.html _ghpages/
+          cp -r src/static/css _ghpages/
+          cp -r src/static/leaflet _ghpages/  # If you have Leaflet assets locally
+
+          # Copy generated JS from js_of_ocaml
+          cp _build/default/src/main.bc.js _ghpages/js/
+
+          # Deploy to gh-pages branch
           cd _ghpages
           git init
           git config user.name "GitHub Actions"
