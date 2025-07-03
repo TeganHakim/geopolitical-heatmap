@@ -15,9 +15,12 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y m4 curl build-essential unzip
-          bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
-          export PATH="$HOME/.opam/bin:$PATH"
+          export OPAMROOT=$HOME/.opam
+          bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)" -- --prefix=$HOME/.local
+          export PATH="$HOME/.local/bin:$PATH"
           opam init --disable-sandboxing --yes
+          eval $(opam env)
+          opam switch create 5.1.0 --yes || true
           eval $(opam env)
           opam install dune --yes
         shell: bash
